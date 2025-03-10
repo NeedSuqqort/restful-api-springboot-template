@@ -4,13 +4,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.restful_api.model.Item;
+import com.example.restful_api.repository.ItemRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ItemService {
     private final HashMap<Long,Item> items = new HashMap<>();
     private final HashMap<String,Long> nameToID = new HashMap<>();
+
+    @Autowired
+    private ItemRepository repo;
+
+    @Transactional
+    public Item saveItem(Item item){
+        return repo.save(item);
+    }
 
     public List<Item> getEveryItem(){
         return new ArrayList<>(items.values());
